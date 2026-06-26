@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل تثبيت نظام نقطة المبيعات</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: #f0f2f5; color: #222; direction: rtl; }
+
+  .page { max-width: 900px; margin: 30px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); overflow: hidden; }
+
+  header { background: linear-gradient(135deg, #1a237e 0%, #283593 60%, #3949ab 100%); color: white; padding: 40px 50px 30px; }
+  header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+  header p  { font-size: 1.05rem; opacity: 0.85; }
+  header .badge { display: inline-block; background: rgba(255,255,255,0.18); border-radius: 20px; padding: 4px 16px; font-size: 0.85rem; margin-top: 12px; }
+
+  .content { padding: 40px 50px; }
+
+  h2 { font-size: 1.35rem; color: #1a237e; border-right: 5px solid #3949ab; padding-right: 14px; margin: 36px 0 16px; }
+  h3 { font-size: 1.1rem; color: #283593; margin: 22px 0 10px; }
+
+  p  { line-height: 1.85; margin-bottom: 12px; color: #333; }
+
+  .step-list { counter-reset: step; list-style: none; }
+  .step-list li { counter-increment: step; display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+  .step-list li::before {
+    content: counter(step);
+    min-width: 36px; height: 36px;
+    background: #3949ab; color: white;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1rem; flex-shrink: 0; margin-top: 2px;
+  }
+  .step-list li .text { flex: 1; }
+  .step-list li .text strong { display: block; font-size: 1.02rem; margin-bottom: 4px; color: #1a237e; }
+
+  .code-block {
+    background: #1e2235; color: #c8d3f5; border-radius: 8px;
+    padding: 16px 20px; font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.92rem; margin: 12px 0; overflow-x: auto; line-height: 1.7;
+    direction: ltr; text-align: left;
+  }
+  .code-block .comment { color: #637777; }
+  .code-block .kw { color: #82aaff; }
+  .code-block .str { color: #c3e88d; }
+
+  .tip { background: #e8f5e9; border-right: 4px solid #43a047; border-radius: 8px; padding: 14px 18px; margin: 14px 0; }
+  .tip strong { color: #2e7d32; }
+  .warn { background: #fff3e0; border-right: 4px solid #fb8c00; border-radius: 8px; padding: 14px 18px; margin: 14px 0; }
+  .warn strong { color: #e65100; }
+  .info { background: #e3f2fd; border-right: 4px solid #1976d2; border-radius: 8px; padding: 14px 18px; margin: 14px 0; }
+  .info strong { color: #0d47a1; }
+
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.95rem; }
+  th { background: #3949ab; color: white; padding: 10px 14px; text-align: right; }
+  td { padding: 9px 14px; border-bottom: 1px solid #e0e4ef; }
+  tr:hover td { background: #f5f7ff; }
+
+  .shortcut-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+  .shortcut-item { background: #f5f7ff; border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; }
+  .shortcut-item .key { background: #3949ab; color: white; border-radius: 6px; padding: 3px 10px; font-family: monospace; font-size: 0.95rem; font-weight: 700; }
+
+  .dl-link { display: inline-flex; align-items: center; gap: 8px; background: #3949ab; color: white; padding: 8px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+
+  footer { background: #f5f7ff; border-top: 1px solid #e0e4ef; padding: 20px 50px; text-align: center; color: #888; font-size: 0.88rem; }
+
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; }
+    header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .code-block { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <h1>🖥️ دليل تثبيت وإعداد نظام نقطة المبيعات</h1>
+    <p>نظام كاشير متكامل — C# WinForms + SQL Server Express</p>
+    <span class="badge">إصدار 1.0 — 2025</span>
+  </header>
+
+  <div class="content">
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <h2>📋 المتطلبات</h2>
+
+    <table>
+      <tr><th>البرنامج</th><th>الإصدار</th><th>ملاحظة</th></tr>
+      <tr><td>Windows</td><td>10 / 11</td><td>مطلوب</td></tr>
+      <tr><td>Visual Studio 2022</td><td>Community (مجاني)</td><td>أو أي إصدار أحدث</td></tr>
+      <tr><td>.NET 8 SDK</td><td>8.0 أو أحدث</td><td>يأتي مع Visual Studio</td></tr>
+      <tr><td>SQL Server Express</td><td>2019 / 2022</td><td>مجاني من Microsoft</td></tr>
+    </table>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <h2>🗄️ الجزء الأول: تثبيت وإعداد SQL Server Express</h2>
+
+    <ol class="step-list">
+      <li>
+        <div class="text">
+          <strong>تحميل SQL Server Express</strong>
+          افتح المتصفح وانتقل إلى:
+          <div class="code-block">https://www.microsoft.com/sql-server/sql-server-downloads</div>
+          اختر <strong>Express</strong> (مجاني) ثم قم بتشغيل المثبّت.
+        </div>
+      </li>
+      <li>
+        <div class="text">
+          <strong>خيارات التثبيت</strong>
+          عند فتح المثبّت اختر <strong>"Basic"</strong> للتثبيت السريع.
+          سيتم تثبيت SQL Server تلقائياً باسم instance: <code>SQLEXPRESS</code>
+        </div>
+      </li>
+      <li>
+        <div class="text">
+          <strong>التأكد من تشغيل الخدمة</strong>
+          <br>اضغط <code>Win + R</code> ثم اكتب <code>services.msc</code> ثم Enter.
+          <br>ابحث عن <strong>SQL Server (SQLEXPRESS)</strong> وتأكد أن الحالة <strong>Running</strong>.
+          <br>إذا كانت متوقفة، انقر عليها بزر الفأرة الأيمن ← <strong>Start</strong>.
+        </div>
+      </li>
+      <li>
+        <div class="text">
+          <strong>تفعيل الاتصال عبر Named Pipes (اختياري)</strong>
+          افتح <strong>SQL Server Configuration Manager</strong> ← SQL Server Network Configuration ← Protocols for SQLEXPRESS ← تفعيل <strong>Named Pipes</strong> و <strong>TCP/IP</strong>.
+        </div>
+      </li>
+    </ol>
+
+    <div class="tip">
+      <strong>✅ ملاحظة:</strong> البرنامج يُنشئ قاعدة البيانات <strong>POSSystem</strong> تلقائياً عند أول تشغيل — لا تحتاج لإنشائها يدوياً.
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <h2>⚙️ الجزء الثاني: إعداد الاتصال بقاعدة البيانات</h2>
+
+    <p>يوجد بجانب البرنامج ملف <strong>ConnectionString.txt</strong> يحتوي على بيانات الاتصال بـ SQL Server.</p>
+
+    <h3>الإعداد الافتراضي (SQL Server Express):</h3>
+    <div class="code-block"><span class="str">Server=.\SQLEXPRESS;Trusted_Connection=True;TrustServerCertificate=True;</span></div>
+
+    <h3>بدائل حسب الإعداد:</h3>
+    <table>
+      <tr><th>الحالة</th><th>سلسلة الاتصال</th></tr>
+      <tr>
+        <td>SQL Server Express (افتراضي)</td>
+        <td><code>Server=.\SQLEXPRESS;Trusted_Connection=True;TrustServerCertificate=True;</code></td>
+      </tr>
+      <tr>
+        <td>SQL Server Default Instance</td>
+        <td><code>Server=.;Trusted_Connection=True;TrustServerCertificate=True;</code></td>
+      </tr>
+      <tr>
+        <td>مع اسم مستخدم وكلمة مرور</td>
+        <td><code>Server=.\SQLEXPRESS;User Id=sa;Password=XXXX;TrustServerCertificate=True;</code></td>
+      </tr>
+      <tr>
+        <td>SQL Server على جهاز آخر في الشبكة</td>
+        <td><code>Server=192.168.1.100\SQLEXPRESS;Trusted_Connection=True;TrustServerCertificate=True;</code></td>
+      </tr>
+    </table>
+
+    <div class="warn">
+      <strong>⚠️ تنبيه:</strong> إذا عدّلت الملف، تأكد من حفظه بترميز <strong>UTF-8</strong> واحذف أي مسافات زائدة في النهاية.
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <h2>🚀 الجزء الثالث: تشغيل التطبيق</h2>
+
+    <h3>الطريقة الأولى: عبر Visual Studio (للمطورين)</h3>
+    <ol class="step-list">
+      <li>
+        <div class="text">
+          <strong>فتح المشروع</strong>
+          انتقل إلى مجلد البرنامج وافتح الملف:
+          <div class="code-block">POSSystem.sln</div>
+        </div>
+      </li>
+      <li>
+        <div class="text">
+          <strong>استعادة الحزم</strong>
+          في Visual Studio من القائمة: <strong>Tools → NuGet Package Manager → Restore All Packages</strong>
+          <br>أو عبر Command Prompt:
+          <div class="code-block">dotnet restore</div>
+        </div>
+      </li>
+      <li>
+        <div class="text">
+          <strong>بناء المشروع</strong>
+          <div class="code-block"><span class="comment">:: من القائمة:</span>
+Build → Build Solution   (أو Ctrl+Shift+B)
+
+<span class="comment">:: أو من Command Prompt:</span>
+dotnet build</div>
+        </div>
+      </li>
+      <li>
+        <div class="text">
+          <strong>تشغيل البرنامج</strong>
+          <div class="code-block"><span class="comment">:: من Visual Studio:</span>
+F5   (أو زر Run الأخضر)
+
+<span class="comment">:: أو من Command Prompt:</span>
+dotnet run --project POSSystem\POSSystem.csproj</div>
+        </div>
+      </li>
+    </ol>
+
+    <h3>الطريقة الثانية: نشر EXE مستقل (للاستخدام النهائي)</h3>
+    <p>لإنشاء ملف تنفيذي يعمل بدون Visual Studio:</p>
+    <div class="code-block"><span class="comment">:: افتح Command Prompt في مجلد المشروع وشغّل:</span>
+dotnet publish POSSystem\POSSystem.csproj ^
+  -c Release ^
+  -r win-x64 ^
+  --self-contained true ^
+  -o output\POSSystem</div>
+
+    <p>ستجد ملف <strong>POSSystem.exe</strong> في مجلد <code>output\POSSystem</code> — يمكن نسخه إلى أي جهاز بدون تثبيت .NET.</p>
+
+    <div class="info">
+      <strong>💡 ملاحظة:</strong> تأكد من وجود ملف <strong>ConnectionString.txt</strong> في نفس مجلد EXE عند النشر.
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <h2>🔐 الجزء الرابع: تسجيل الدخول</h2>
+
+    <p>عند أول تشغيل يُنشئ البرنامج مستخدمَين تلقائياً:</p>
+
+    <table>
+      <tr><th>المستخدم</th><th>الدور</th><th>رمز PIN</th><th>الصلاحيات</th></tr>
+      <tr><td>المدير</td><td>admin</td><td><strong>1234</strong></td><td>جميع الصلاحيات + الإدارة</td></tr>
+      <tr><td>الكاشير</td><td>cashier</td><td><strong>0000</strong></td><td>البيع فقط</td></tr>
+    </table>
+
+    <div class="warn">
+      <strong>⚠️ مهم:</strong> غيّر رموز PIN من داخل البرنامج بعد أول تسجيل دخول: <strong>الإدارة ← المستخدمون</strong>.
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <h2>📦 الجزء الخامس: هيكل البيانات (الجداول)</h2>
+
+    <p>يُنشئ البرنامج الجداول التالية في قاعدة البيانات <code>POSSystem</code> تلقائياً:</p>
+
+    <table>
+      <tr><th>الجدول</th><th>الوصف</th><th>البيانات الأولية</th></tr>
+      <tr><td><code>Categories</code></td><td>فئات الأصناف (مشروبات، وجبات...)</td><td>6 فئات جاهزة</td></tr>
+      <tr><td><code>Items</code></td><td>الأصناف والمنتجات مع الأسعار</td><td>23 صنف جاهز</td></tr>
+      <tr><td><code>Customers</code></td><td>بيانات العملاء</td><td>—</td></tr>
+      <tr><td><code>Users</code></td><td>الكاشيرون والمدراء مع PIN</td><td>مدير + كاشير</td></tr>
+      <tr><td><code>Invoices</code></td><td>رؤوس الفواتير</td><td>—</td></tr>
+      <tr><td><code>InvoiceItems</code></td><td>تفاصيل أصناف كل فاتورة</td><td>—</td></tr>
+      <tr><td><code>AppSettings</code></td><td>اسم المحل، الضريبة، العملة...</td><td>إعدادات افتراضية</td></tr>
+    </table>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <h2>⌨️ اختصارات لوحة المفاتيح</h2>
+
+    <div class="shortcut-grid">
+      <div class="shortcut-item"><span class="key">F2</span> بحث عن صنف</div>
+      <div class="shortcut-item"><span class="key">F5</span> فاتورة جديدة</div>
+      <div class="shortcut-item"><span class="key">F12</span> إتمام الدفع</div>
+      <div class="shortcut-item"><span class="key">Del</span> حذف صنف من الفاتورة</div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <h2>🔧 الجزء السادس: حل المشكلات الشائعة</h2>
+
+    <h3>❌ "A network-related or instance-specific error"</h3>
+    <div class="warn">
+      <strong>السبب:</strong> خدمة SQL Server متوقفة أو اسم الـ instance خاطئ.
+      <br><strong>الحل:</strong>
+      <ol style="margin-right:16px;margin-top:8px;line-height:2">
+        <li>افتح Services.msc وتأكد أن <strong>SQL Server (SQLEXPRESS)</strong> يعمل.</li>
+        <li>عدّل ملف ConnectionString.txt وجرّب: <code>Server=localhost\SQLEXPRESS</code></li>
+      </ol>
+    </div>
+
+    <h3>❌ "Login failed for user"</h3>
+    <div class="warn">
+      <strong>السبب:</strong> Windows Authentication غير مفعّل أو الحساب ليس له صلاحية.
+      <br><strong>الحل:</strong> افتح SQL Server Management Studio (SSMS) ← Security ← Logins ← تأكد من وجود حسابك بصلاحيات <em>sysadmin</em>.
+    </div>
+
+    <h3>❌ خطأ في البناء Build Failed</h3>
+    <div class="warn">
+      <strong>الحل:</strong>
+      <div class="code-block">dotnet restore
+dotnet build</div>
+      إذا استمر الخطأ، احذف مجلد <code>bin</code> و <code>obj</code> ثم أعد البناء.
+    </div>
+
+    <h3>❌ رسالة "الترخيص منتهي"</h3>
+    <div class="warn">
+      <strong>الحل:</strong> افتح SSMS وشغّل:
+      <div class="code-block"><span class="kw">UPDATE</span> POSSystem.dbo.AppSettings <span class="kw">SET</span> LicenseStatus = <span class="str">'active'</span>;</div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <h2>🗂️ هيكل ملفات المشروع</h2>
+
+    <div class="code-block">POSSystem_CSharp/
+├── ConnectionString.txt          ← <span class="comment">عدّل هذا لتغيير قاعدة البيانات</span>
+├── POSSystem.sln                 ← <span class="comment">افتح هذا في Visual Studio</span>
+├── POSSystem/
+│   ├── POSSystem.csproj
+│   ├── Program.cs                ← <span class="comment">نقطة البداية</span>
+│   ├── Models/
+│   │   └── Models.cs             ← <span class="comment">كل نماذج البيانات</span>
+│   ├── Database/
+│   │   ├── DatabaseHelper.cs     ← <span class="comment">طبقة الاتصال بـ SQL</span>
+│   │   └── SchemaSetup.cs        ← <span class="comment">إنشاء الجداول والبيانات الأولية</span>
+│   ├── Services/
+│   │   ├── ItemService.cs
+│   │   ├── CategoryService.cs
+│   │   ├── CustomerService.cs
+│   │   ├── UserService.cs
+│   │   ├── InvoiceService.cs
+│   │   └── SettingsService.cs
+│   └── Forms/
+│       ├── LoginForm.cs          ← <span class="comment">شاشة تسجيل الدخول بـ PIN</span>
+│       ├── MainForm.cs           ← <span class="comment">شاشة الكاشير الرئيسية</span>
+│       ├── PaymentForm.cs        ← <span class="comment">شاشة الدفع</span>
+│       ├── ItemEditForm.cs       ← <span class="comment">إضافة/تعديل صنف</span>
+│       └── ManagementForm.cs     ← <span class="comment">الإدارة (أصناف، عملاء، تقارير)</span></div>
+
+  </div><!-- end content -->
+
+  <footer>
+    نظام نقطة المبيعات — مشروع C# WinForms مفتوح المصدر &nbsp;|&nbsp;
+    يمكن طباعة هذا الدليل: Ctrl+P
+  </footer>
+
+</div><!-- end page -->
+</body>
+</html>
